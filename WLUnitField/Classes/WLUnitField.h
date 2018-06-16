@@ -70,6 +70,15 @@ IB_DESIGNABLE
  */
 @property (nonatomic, assign) IBInspectable CGFloat borderWidth;
 
+
+
+/**
+ 设置下划线的宽度，默认为 1。
+ */
+@property (nonatomic, assign) IBInspectable CGFloat underlineWidth;
+
+@property (nonatomic, assign) IBInspectable UIColor *underlineColor;
+
 /**
  设置文本字体
  */

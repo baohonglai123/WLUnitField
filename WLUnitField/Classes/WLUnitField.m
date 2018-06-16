@@ -360,6 +360,8 @@
 
     [self _fillRect:rect clip:YES];
     [self _drawBorder:rect unitSize:unitSize];
+    [self _drawUnderline:unitSize];
+    [self _drawTrackUnderline:unitSize];
     [self _drawText:rect unitSize:unitSize];
     [self _drawTrackBorder:rect unitSize:unitSize];
 }
@@ -436,6 +438,43 @@
     CGContextDrawPath(_ctx, kCGPathStroke);
 }
 
+/**
+ 绘制下划线
+
+ @see unitSpace
+
+ @param rect 控件绘制的区域
+ @param unitSize 单个 input unit 占据的尺寸
+ */
+
+- (void)_drawUnderline:(CGSize)unitSize {
+    [self.underlineColor setStroke];
+    CGContextSetLineWidth(_ctx, 1);
+    CGContextSetLineCap(_ctx, kCGLineCapRound);
+    for (int i = 0; i < _inputUnitCount; i++) {
+        CGContextMoveToPoint(_ctx, i * (unitSize.width + _unitSpace), unitSize.height - 1); // 起点
+        CGContextAddLineToPoint(_ctx, i * (unitSize.width + _unitSpace) + unitSize.width, unitSize.height - 1); //终点
+    }
+    CGContextDrawPath(_ctx, kCGPathStroke);
+
+}
+
+
+/**
+ 绘制下划线,只是颜色不一样
+
+ @param unitSize 单个 input unit 占据的尺寸
+ */
+- (void)_drawTrackUnderline:(CGSize)unitSize {
+    [self.trackTintColor setStroke];
+    CGContextSetLineWidth(_ctx, 1);
+    CGContextSetLineCap(_ctx, kCGLineCapRound);
+    for (int i = 0; i < _characterArray.count; i++) {
+        CGContextMoveToPoint(_ctx, i * (unitSize.width + _unitSpace), unitSize.height - 1); // 起点
+        CGContextAddLineToPoint(_ctx, i * (unitSize.width + _unitSpace) + unitSize.width, unitSize.height - 1); //终点
+    }
+    CGContextDrawPath(_ctx, kCGPathStroke);
+}
 
 /**
  绘制文本

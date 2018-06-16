@@ -22,8 +22,11 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     _unitField.delegate = self;
-    _unitField.keyboardType = UIKeyboardTypeASCIICapable;
-    _unitField.text = @"一😀12";
+    _unitField.keyboardType = UIKeyboardTypeNumberPad;
+    _unitField.text = @"";
+    _unitField.underlineColor = UIColor.blueColor;
+    _unitField.underlineWidth = 5;
+    [_unitField becomeFirstResponder];
 }
 
 - (BOOL)unitField:(WLUnitField *)uniField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
