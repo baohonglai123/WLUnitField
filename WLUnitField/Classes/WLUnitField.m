@@ -74,16 +74,17 @@
     return self;
 }
 
-
-
 - (void)initialize {
     [self setBackgroundColor:[UIColor clearColor]];
     self.opaque = NO;
+    _inputUnitCount = 6;
     _characterArray = [NSMutableArray array];
     _secureTextEntry = NO;
-    _unitSpace = 12;
+    _unitSpace = 16;
     _borderRadius = 0;
-    _borderWidth = 1;
+    _borderWidth = 0;
+    _underlineWidth = 1.3;
+    _underlineColor = [UIColor blackColor];
     _textFont = [UIFont systemFontOfSize:22];
     _keyboardType = UIKeyboardTypeNumberPad;
     _returnKeyType = UIReturnKeyDone;
@@ -146,7 +147,7 @@
         [[NSOperationQueue mainQueue] addOperationWithBlock:^{
             [self layoutIfNeeded];
             
-            _cursorLayer.position = CGPointMake(CGRectGetWidth(self.bounds) / _inputUnitCount / 2, CGRectGetHeight(self.bounds) / 2);
+            _cursorLayer.position = CGPointMake(CGRectGetWidth(self.bounds) / _inputUnitCount / 2 - _unitSpace / 2, CGRectGetHeight(self.bounds) / 2);
         }];
     }
     
@@ -255,6 +256,17 @@
         _tintColor = tintColor;
     }
     
+    [self setNeedsDisplay];
+    [self _resetCursorStateIfNeeded];
+}
+
+- (void)setUnderlineColor:(UIColor *)underlineColor {
+    if (underlineColor == nil) {
+        _underlineColor = [[UIView appearance] tintColor];
+    } else {
+        _underlineColor = underlineColor;
+    }
+
     [self setNeedsDisplay];
     [self _resetCursorStateIfNeeded];
 }
@@ -468,7 +480,8 @@
     [self.trackTintColor setStroke];
     CGContextSetLineWidth(_ctx, self.underlineWidth);
     CGContextSetLineCap(_ctx, kCGLineCapSquare);
-    for (int i = 0; i < _characterArray.count; i++) {
+    NSInteger count = _characterArray.count + 1 > _inputUnitCount ? _inputUnitCount : _characterArray.count + 1;
+    for (int i = 0; i < count; i++) {
         CGContextMoveToPoint(_ctx, i * (unitSize.width + _unitSpace), unitSize.height - self.underlineWidth); // 起点
         CGContextAddLineToPoint(_ctx, i * (unitSize.width + _unitSpace) + unitSize.width, unitSize.height - self.underlineWidth); //终点
     }

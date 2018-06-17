@@ -77,7 +77,7 @@ IB_DESIGNABLE
  */
 @property (nonatomic, assign) IBInspectable CGFloat underlineWidth;
 
-@property (nonatomic, assign) IBInspectable UIColor *underlineColor;
+@property (null_resettable, nonatomic, strong) IBInspectable UIColor *underlineColor;
 
 /**
  设置文本字体

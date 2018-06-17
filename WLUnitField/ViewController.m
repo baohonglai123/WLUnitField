@@ -25,7 +25,7 @@
     _unitField.keyboardType = UIKeyboardTypeNumberPad;
     _unitField.text = @"";
     _unitField.underlineColor = UIColor.blueColor;
-    _unitField.underlineWidth = 5;
+    _unitField.underlineWidth = 1.3;
     [_unitField becomeFirstResponder];
 }
 
